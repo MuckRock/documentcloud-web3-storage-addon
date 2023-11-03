@@ -18,6 +18,7 @@ class Web3Storage(AddOn):
 
     def main(self):
 
+        os.makedirs(f"{os.environ['HOME']}/.config/w3access/")
         with open(
             f"{os.environ['HOME']}/.config/w3access/w3cli.json", "w"
         ) as config_file:
