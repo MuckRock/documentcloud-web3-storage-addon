@@ -4,4 +4,6 @@ on: repository_dispatch
 
 jobs:
   Run-Add-On:
-    uses: MuckRock/documentcloud-addon-workflows/.github/workflows/run-addon.yml@v1
+    uses: MuckRock/documentcloud-addon-workflows/.github/workflows/run-addon.yml@node
+    with:
+      npm-packages: "@web3-storage/w3cli"

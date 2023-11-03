@@ -7,32 +7,47 @@ from DocumentCloud via the request dispatch and writes data back to
 DocumentCloud using the standard API
 """
 
+import os
+import subprocess
+
 from documentcloud.addon import AddOn
 
 
-class HelloWorld(AddOn):
-    """An example Add-On for DocumentCloud."""
+class Web3Storage(AddOn):
+    """Add-On to upload files to Filecoin via web3.storage"""
 
     def main(self):
-        """The main add-on functionality goes here."""
-        # fetch your add-on specific data
-        name = self.data.get("name", "world")
 
-        self.set_message("Hello World start!")
+        with open(
+            f"{os.environ['HOME']}/.config/w3access/w3cli.json", "w"
+        ) as config_file:
+            config_file.write(os.environ["AUTH"])
 
-        # add a hello note to the first page of each selected document
-        for document in self.get_documents():
-            # get_documents will iterate through all documents efficiently,
-            # either selected or by query, dependeing on which is passed in
-            document.annotations.create(f"Hello {name}!", 0)
+        result = subprocess.run(["w3", "whoami"], capture_output=True)
+        print("whoami", result.stdout.decode("utf8"))
 
-        with open("hello.txt", "w+") as file_:
-            file_.write("Hello world!")
-            self.upload_file(file_)
+        for i, document in enumerate(self.get_documents()):
+            self.set_message(f"Uploading {document.title}...")
+            print(
+                f"{datetime.now()} - Uploading {i} {document.slug} size "
+                f"{len(document.pdf)}"
+            )
+            with open(f"{document.slug}.pdf", "wb") as pdf:
+                pdf.write(document.pdf)
+            result = subprocess.run(
+                ["w3", "up", f"{document.slug}.pdf"], capture_output=True
+            )
+            if result.returncode != 0:
+                self.set_message(f"Error: {result.stderr}")
+                raise ValueError(result.stderr)
 
-        self.set_message("Hello World end!")
-        self.send_mail("Hello World!", "We finished!")
+            link = result.stdout.decode("utf8").strip()[2:]
+            document.data["ipfsUrl"] = [link]
+            cid = link[link.rfind("/") + 1 :]
+            document.data["cid"] = cid
+            document.save()
+            os.remove(f"{document.slug}.pdf")
 
 
 if __name__ == "__main__":
-    HelloWorld().main()
+    Web3Storage().main()
