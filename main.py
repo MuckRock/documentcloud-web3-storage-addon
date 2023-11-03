@@ -25,9 +25,6 @@ class Web3Storage(AddOn):
         ) as config_file:
             config_file.write(os.environ["TOKEN"])
 
-        result = subprocess.run(["w3", "whoami"], capture_output=True)
-        print("whoami", result.stdout.decode("utf8"))
-
         for i, document in enumerate(self.get_documents()):
             self.set_message(f"Uploading {document.title}...")
             print(
