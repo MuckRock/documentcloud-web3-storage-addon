@@ -22,7 +22,7 @@ class Web3Storage(AddOn):
         with open(
             f"{os.environ['HOME']}/.config/w3access/w3cli.json", "w"
         ) as config_file:
-            config_file.write(os.environ["AUTH"])
+            config_file.write(os.environ["TOKEN"])
 
         result = subprocess.run(["w3", "whoami"], capture_output=True)
         print("whoami", result.stdout.decode("utf8"))
