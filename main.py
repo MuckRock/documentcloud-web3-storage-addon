@@ -9,6 +9,7 @@ DocumentCloud using the standard API
 
 import os
 import subprocess
+from datetime import datetime
 
 from documentcloud.addon import AddOn
 
