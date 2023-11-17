@@ -3,14 +3,9 @@
 
 [Please see the Add-On documentation](https://github.com/MuckRock/documentcloud-hello-world-addon/wiki/)
 
-# DocumentCloud Hello World Add-On
+# DocumentCloud Web3 Storage
 
-This repository contains an example Add-On for DocumentCloud.  It is designed
-to be copied and modified to allow one to easily write Add-Ons to bring custom
-functionality to DocumentCloud.  Please use the green "Use this Template"
-button to create a new repository instead of forking.  This will be easier as
-the new Add-On will diverge significantly from this code base.
-
-After copying the template, remember to update this README file to describe
-your new Add-On!  It is a good idea to leave the link to the Add-On
-documentation at the top of the file though.
+This Add-On pushes the selected documents to IPFS and the Filecoin network
+via the web3.storage service. Once the run is complete, you’ll be given a
+working IPFS address for the document, which will make it more resilient from
+outages and removals.
