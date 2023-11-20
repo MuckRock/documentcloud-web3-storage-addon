@@ -1,20 +1,15 @@
 """
-This is a hello world add-on for DocumentCloud.
-
-It demonstrates how to write a add-on which can be activated from the
-DocumentCloud add-on system and run using Github Actions.  It receives data
-from DocumentCloud via the request dispatch and writes data back to
-DocumentCloud using the standard API
+This is a Filecoin add-on for DocumentCloud, using the web3.storage service
 """
 
 import os
 import subprocess
 from datetime import datetime
 
-from documentcloud.addon import AddOn
+from documentcloud.addon import SoftTimeOutAddOn
 
 
-class Web3Storage(AddOn):
+class Web3Storage(SoftTimeOutAddOn):
     """Add-On to upload files to Filecoin via web3.storage"""
 
     def main(self):
